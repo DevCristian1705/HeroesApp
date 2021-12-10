@@ -1,0 +1,49 @@
+<div fxLayout="column">
+    <div>
+        <h1>Buscador de Heroes</h1>
+        <mat-divider></mat-divider>
+    </div>
+ </div> 
+  
+ <div fxLayout="row" 
+      fxLayoutGap="20px" >
+
+    <mat-form-field fxFlex="70"> 
+        <input type="text" 
+            aria-label="Number"
+            matInput 
+            placeholder="escribe el nombre de tu superheroe favorito aqui."
+            [(ngModel)]="termino"
+            [matAutocomplete]="auto"
+            (input)="onBuscando()">
+        <mat-autocomplete 
+                autoActiveFirstOption
+                #auto="matAutocomplete"
+                (optionSelected)="onHeroeSeleccionado($event)"
+                >
+        <mat-option *ngFor="let h of heroes" [value]="h">
+            {{ h.superhero}}
+        </mat-option>
+
+        <mat-option value="" *ngIf="heroes.length === 0 && termino.trim().length > 0">
+            No se encontraron superheroes con el termino ingresado. "{{termino}}"
+        </mat-option>
+
+        </mat-autocomplete>
+    </mat-form-field>
+          
+    <button fxFlex="30"
+            *ngIf="heroeSeleccionado"  
+            mat-raised-button color="info"
+            (click)="onLimpiar()">
+            Limpiar
+    </button> 
+</div>
+ 
+<div>
+    <pre *ngIf="heroeSeleccionado">
+        <app-tarjeta-heroe [heroe]="heroeSeleccionado"> </app-tarjeta-heroe>
+    </pre>
+</div>
+  
+ 
